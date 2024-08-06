@@ -11,7 +11,8 @@
 
 ## ปัญหาที่สนใจ
 ให้เขียนอธิบายเกี่ยวกับปัญหาที่สนใจ แหล่งข้อมูลของปัญหา และวิธีการเก็บข้อมูลเพื่อตอบปัญหา
-ปัญหาที่สนใจคือ ทำนายมลพิษทางอากาศ แหล่งข้อมูล https://openweathermap.org/
+ปัญหาที่สนใจคือ ทำนายมลพิษทางอากาศ 
+แหล่งข้อมูล https://openweathermap.org/ , https://openweathermap.org/api/air-pollution#descr
 
 ## Project Workflow/Data Pipeline
 
