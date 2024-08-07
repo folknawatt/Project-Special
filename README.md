@@ -1,4 +1,4 @@
-# โปรเจคกลุ่ม วิชา  265472--Special Topics in Data Science
+# โปรเจคกลุ่ม Wipfup วิชา  265472--Special Topics in Data Science
 
 **กลุ่มที่ 1** 🥸😎🤟
 > Git repo.: https://github.com/folknawatt/Project-Special.git
