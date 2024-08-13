@@ -3,43 +3,55 @@ import requests
 import datetime
 import os
 
+## ความเห็นจากกิว อยากให้โมดูลเขียน def แค่นี้
 
-def air_pollution_data(token: str, lat, lon):
-    url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={token}" #Current air pollution data
-
-    # Data Acquisition
-    res = requests.get(url)
-
-    # ตรวจสอบสถานะของการร้องขอ
-    if res.status_code == 200:
-        print("Data retrieved successfully.")
-        data = res.json()
-        print(data)
-            
-        # Data Manipulation & Preparation
-        # แปลงข้อมูล JSON เป็น DataFrame
-        df = pd.json_normalize(data['list'])
-
-        # Data Cleansing
-        # ตรวจสอบค่า null หรือค่าที่ผิดปกติ
-        df.isnull().sum()
-        df.describe()
-
-        # แก้ไขชื่อคอลัมน์
-        new_name = {'main.aqi': 'AQI', 'components.co': 'CO', 'components.no': 'NO', 'components.no2': 'NO2', 'components.o3': 'O3', 'components.so2': 'SO2', 'components.pm2_5': 'PM2.5', 'components.pm10': 'PM10', 'components.nh3': 'NH3'}
-        df_new = df.rename(columns=new_name)
-        df_new['DateTime'] = datetime.datetime.now()
+def air_pollution_data(token, lat, lon):
+    url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={token}"
+    response = requests.get(url)
     
-        # ลบแถวที่มีค่า null
-        df_new.dropna(inplace=True)
-
-        # บันทึกข้อมูลลง CSV
-        csv_name = 'air_pollution_data.csv'
-        df_new.to_csv(csv_name, index=False)
-        print("Data saved successfully: '{}'".format(csv_name))
-        
+    if response.status_code == 200:
+        print("Data retrieved successfully.")
+        return response.json()
     else:
-        print(f"Failed to retrieve data: {res.status_code}")
+        print(f"Failed to retrieve data: {response.status_code}")
+        return None
+
+# def air_pollution_data(token: str, lat, lon):
+#     url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={token}" #Current air pollution data
+
+#     # Data Acquisition
+#     res = requests.get(url)
+
+#     # ตรวจสอบสถานะของการร้องขอ
+#     if res.status_code == 200:
+#         print("Data retrieved successfully.")
+#         data = res.json()
+#         print(data)
+            
+#         # Data Manipulation & Preparation
+#         # แปลงข้อมูล JSON เป็น DataFrame
+#         df = pd.json_normalize(data['list'])
+
+#         # Data Cleansing
+#         # ตรวจสอบค่า null หรือค่าที่ผิดปกติ
+#         df.isnull().sum()
+#         df.describe()
+
+#         # แก้ไขชื่อคอลัมน์
+#         new_name = {'main.aqi': 'AQI', 'components.co': 'CO', 'components.no': 'NO', 'components.no2': 'NO2', 'components.o3': 'O3', 'components.so2': 'SO2', 'components.pm2_5': 'PM2.5', 'components.pm10': 'PM10', 'components.nh3': 'NH3'}
+#         df_new = df.rename(columns=new_name)
+#         df_new['DateTime'] = datetime.datetime.now()
+    
+#         # ลบแถวที่มีค่า null
+#         df_new.dropna(inplace=True)
+
+#         # บันทึกข้อมูลลง CSV
+#         csv_name = 'air_pollution_data.csv'
+#         df_new.to_csv(csv_name, index=False)
+#         print("Data saved successfully: '{}'".format(csv_name))
+        
+#     else:
+#         print(f"Failed to retrieve data: {res.status_code}")
 
 # def update_air_pollution_data(token, lat, lon, csv_file='air_pollution_data.csv'):
 #     """
