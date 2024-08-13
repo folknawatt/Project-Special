@@ -9,5 +9,3 @@ lon = "100.5018"
 # Usage Example
 data = air_pollution_data(token, lat, lon)
 print(data)
-# อัพเดตข้อมูลใหม่เพิ่มเข้าไปในไฟล์เดิม
-# update_air_pollution_data(token, lat, lon, csv_file='air_pollution_data.csv')

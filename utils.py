@@ -3,7 +3,7 @@ import requests
 import datetime
 import os
 
-## ความเห็นจากกิว อยากให้โมดูลเขียน def แค่นี้
+## ความเห็นจากกิว อยากให้โมดูลเขียน def แค่นี้น่าจะดีกว่า
 
 def air_pollution_data(token, lat, lon):
     url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={token}"
