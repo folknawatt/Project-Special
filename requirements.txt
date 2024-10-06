@@ -1,2 +1,4 @@
-pandas==2.2.2
-requests==2.32.3
+pandas
+requests
+mysql-connector-python
+python-dotenv
