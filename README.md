@@ -16,6 +16,7 @@
 
 ## Project Workflow/Data Pipeline
 
+![image](https://github.com/user-attachments/assets/0b955aca-833a-438a-a09b-33fe156b365c)
 
 
 ## อ้างอิง
