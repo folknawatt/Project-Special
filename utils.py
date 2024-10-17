@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 from datetime import datetime
 import os
+import pytz
 
 def air_pollution_data(token, lat, lon):
     # token = "0148867a37d666e0e9d1202823b800fc"
@@ -14,15 +15,20 @@ def air_pollution_data(token, lat, lon):
 
     try:
         res = requests.get(url)
+        print(res)
         if res.status_code == 200:
             print("Data retrieved successfully.")
             data = res.json()
+            print(data)
+            print(data['list'])
+            print("*"*50)
         else:
             raise Exception(f"API request failed with status code: {res.status_code}")
     except Exception as e:
         raise Exception(f"API error: {e}")
 
     df = pd.json_normalize(data['list'])
+    print(df)
 
     new_name = {
         'main.aqi': 'AQI', 'components.co': 'CO', 'components.no': 'NO', 'components.no2': 'NO2',
@@ -30,7 +36,12 @@ def air_pollution_data(token, lat, lon):
         'components.pm10': 'PM10', 'components.nh3': 'NH3'
     }
     df_new = df.rename(columns=new_name)
-    df_new['DateTime'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # ตั้งค่าโซนเวลาเป็น Thailand
+    th_timezone = pytz.timezone('Asia/Bangkok')
+
+    # ปรับโซนเวลาเป็นเวลาประเทศไทย
+    df_new["DateTime"] = datetime.now(th_timezone).strftime("%Y-%m-%d %H:%M:%S")
+
 
     # df_new.drop(columns=['dt'], inplace=True)
     df_new.dropna(inplace=True)

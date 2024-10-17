@@ -1,14 +1,21 @@
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 from airflow import DAG
 import pandas as pd
 import requests
+import pytz
 import os
 
 
 # ฟังก์ชันสำหรับดึงข้อมูลจาก API
 def call_api():
-    token = "0148867a37d666e0e9d1202823b800fc"
+
+    # โหลดไฟล์ .env จากตำแหน่งที่ระบุ
+    load_dotenv(dotenv_path="/home/airflow/.env")
+    
+    # ดึงค่าจากไฟล์ .env
+    token = os.getenv("TOKEN")
     lat = "13.7563"
     lon = "100.5018"
     url = f"http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={token}"
@@ -24,7 +31,7 @@ def call_api():
 
     data_path = "/home/airflow/data/air_pollution_data.csv"
     df = pd.json_normalize(data["list"])
-    df["DateTime"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    df["DateTime"] = datetime.now(pytz.timezone("Asia/Bangkok")).strftime("%Y-%m-%d %H:%M:%S")
     df.drop(columns="dt", inplace=True)
 
     # ถ้ามีไฟล์อยู่แล้ว อ่านไฟล์เดิมและเพิ่มข้อมูลใหม่
@@ -58,7 +65,6 @@ def manipulate_data():
     }
     df_new = df.rename(columns=new_name)
     df_new.dropna(inplace=True)
-
     df_new.to_csv(result_path, index=False)
 
 
@@ -80,8 +86,11 @@ with DAG(
 ) as dag:
 
     t1 = PythonOperator(
-        task_id="fetch_and_save_air_pollution_data", python_callable=call_api
+        task_id="fetch_and_save_air_pollution_data",
+        python_callable=call_api
     )
-    t2 = PythonOperator(task_id="save_data_task", python_callable=manipulate_data)
+    t2 = PythonOperator(
+        task_id="save_data_task",
+        python_callable=manipulate_data)
 
     t1 >> t2

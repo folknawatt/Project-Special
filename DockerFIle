@@ -1,3 +1,6 @@
+# ทำการเลือก base image (จาก DockerHub) มาเป็นตัว runtime เริ่มต้น
+# ใช้ apache airflow 2.6.0 image จาก DockerHub #base Image ของ apache/airflow
+
 FROM apache/airflow:2.6.0
 USER airflow
 COPY requirments.txt /tmp/requirments.txt
