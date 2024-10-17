@@ -21,4 +21,9 @@
 
 ## อ้างอิง
 
+### API
+https://openweathermap.org/api/air-pollution#descr
+
+### เนื้อหามลพิษทางอากาศ
+https://healthenvi.com/causes-and-effects-of-air-pollution/ 
 
